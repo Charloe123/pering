@@ -6,6 +6,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -108,12 +109,9 @@ export default function Navbar() {
                   {platform}
                 </a>
               ))}
-
-              <input
-                type="text"
-                placeholder="Search"
-                className="appearance-none bg-[#FFBD3A] text-black placeholder-gray-800 rounded px-3 py-1 outline-none focus:ring-2 focus:ring-[#e6a800]"
-              />
+              <Link href={"/"}>
+                
+              </Link>
             </div>
           </div>
         </div>

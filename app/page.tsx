@@ -1,23 +1,31 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import Cards from "@/components/Cards";
+import SecondSection from "@/components/SecondSection";
+import ThirdSection from "@/components/ThirdSection";
+
+
+
 
 export default function Home() {
   return (
     <>
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden bg-[#FFFDFA] w-full ">
         <Navbar />
 
-        <div className="w-full bg-[#FFFDFA] pt-20 px-4 sm:px-8 md:px-16 "> 
+        <div className="w-full  pt-20 px-4 sm:px-8 md:px-16 "> 
           <div className="flex flex-col md:flex-row gap-8 md:gap-14 ">
 
             <div className="relative w-full md:w-[520px] h-[800px] sm:h-[400px] md:h-[600px]">
+              <Link href={"/"}>
               <Image
                 src="https://res.cloudinary.com/dpahyb1x9/image/upload/v1756900147/B6H8uMrvXJMcE3bXXnTeFhxAQ8_xkhjyu.jpg"
                 alt="hello"
                 fill
                 className="object-cover "
               />
+              </Link>
             </div>
 
             <div className="w-full md:w-[850px] pr-0 md:pr-7">
@@ -194,18 +202,26 @@ export default function Home() {
               </div>
             </div>
             
-          </div>
-
-         
-        </div>
-
-        <div className="h-[5vh] mt-10 border-b border-px w-[91%] mx-auto">
+          </div> 
+          <div className="h-[5vh] mt-10 border-b border-px w-[100%] ">
           
         </div>
-        <div className="h-[100vh] mt-10">
+        </div>
+
+        
+        <div className="h-[90vh] mt-10 w-full">
           <h1 className="text-4xl px-14">
            
           </h1>
+          <Cards/>
+          
+        </div>
+        <div>
+          <SecondSection/>
+        </div>
+
+        <div>
+          <ThirdSection/>
         </div>
       </main>
     </>
