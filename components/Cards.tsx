@@ -39,7 +39,7 @@ export default function Cards() {
   if (!posts.length) return <p className="px-14">No posts available.</p>;
 
   return (
-    <div className="px-14 relative">
+    <div className="px-14 relative ">
       <h2 className="text-5xl mb-8">Editor’s Pick</h2>
 
      

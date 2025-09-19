@@ -27,6 +27,4 @@ const postSchema = new Schema({
 
  export default mongoose.models.post || mongoose.model("post", postSchema)
 
-// const post = mongoose.model("post",postSchema)
 
-// export default post 

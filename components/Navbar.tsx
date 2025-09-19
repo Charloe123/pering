@@ -10,9 +10,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full border-b bg-[#FFFDFA] h-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center pt-5">
-        {/* Logo */}
+    <nav className="w-full border-b bg-[#FFFDFA] h-20 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center pt-5 ">
+        
         <Link href="/">
           <Image
             src="https://res.cloudinary.com/dpahyb1x9/image/upload/v1756974823/Pering_logo_kpkkbf.png"
@@ -23,7 +23,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop Menu */}
+       
         <ul className="hidden md:flex space-x-6 items-center">
           <li>
             <Link href="/" className="hover:text-gray-900 text-[12px] font-semibold font-[outfit]">
@@ -51,13 +51,13 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/signIn" className="hover:text-gray-900 text-[12px] font-semibold font-[outfit]">
+            <Link href="/signin" className="hover:text-gray-900 text-[12px] font-semibold font-[outfit]">
               CREATE POST
             </Link>
           </li>
         </ul>
 
-        {/* Social + Search */}
+       
         <div className="hidden md:flex items-center space-x-2">
           <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="border-2 rounded px-3 hover:text-gray-900 hover:border-gray-700">
             facebook
@@ -79,7 +79,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
+     
         <button
           className="md:hidden p-2 text-2xl"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -88,7 +88,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+     
       {menuOpen && (
         <ul className="md:hidden bg-white shadow-lg flex flex-col space-y-2 px-4 py-3">
           <li>
@@ -122,7 +122,7 @@ export default function Navbar() {
             </Link>
           </li>
 
-          {/* Social links in mobile menu */}
+        
           <div className="flex flex-col space-y-2 mt-2">
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="border-3 rounded px-3 py-1 text-gray-700 hover:text-gray-900 hover:border-gray-700">
               facebook
@@ -134,6 +134,8 @@ export default function Navbar() {
               instagram
             </a>
           </div>
+
+          
         </ul>
       )}
     </nav>

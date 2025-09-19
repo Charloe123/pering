@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
+
 import Link from "next/link";
 import Cards from "@/components/Cards";
 import SecondSection from "@/components/SecondSection";
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <main className="overflow-x-hidden bg-[#FFFDFA] w-full ">
-        <Navbar />
+        
 
         <div className="w-full  pt-20 px-4 sm:px-8 md:px-16 "> 
           <div className="flex flex-col md:flex-row gap-8 md:gap-14 ">

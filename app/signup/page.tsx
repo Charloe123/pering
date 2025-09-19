@@ -1,107 +1,91 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function SignUpPage() {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+export default function SignupPage() {
   const router = useRouter();
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("text-red-500");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage("");
 
     try {
-      const res = await fetch("/api/auth/signin", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, username, email, password }),
+        body: JSON.stringify(form),
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-      if (!res.ok) {
-        setMessage(data.error || "Something went wrong");
-        return;
-      }
+      setMessage(" Signup successful! Redirecting to Sign In...");
+      setMessageColor("text-green-500");
+      setForm({ username: "", email: "", password: "" });
 
-      setMessage(" Account created successfully!");
-     
-      setTimeout(() => router.push("/signin"), 1500);
-
-    } catch (err) {
-      console.error(err);
-      setMessage(" Failed to sign up. Try again.");
+      setTimeout(() => router.push("/signin"), 2000);
+    } catch (err: unknown) {
+      setMessage(err instanceof Error ? ` ${err.message}` : " An unexpected error occurred");
+      setMessageColor("text-red-500");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+      <form className="bg-white p-6 rounded-xl shadow-md w-full max-w-md" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
 
         <input
           type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        />
-
-        <input
-          type="text"
+          name="username"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={form.username}
+          onChange={handleChange}
+          className="w-full p-2 mb-3 border rounded"
           required
-          className="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
 
         <input
           type="email"
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={form.email}
+          onChange={handleChange}
+          className="w-full p-2 mb-3 border rounded"
           required
-          className="w-full mb-3 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
 
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={handleChange}
+          className="w-full p-2 mb-3 border rounded"
           required
-          className="w-full mb-4 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
 
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Sign up
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+          Sign Up
         </button>
 
-        {message && (
-          <p className="text-center mt-3 text-sm text-gray-700">{message}</p>
-        )}
-
-        <p className="text-sm text-center mt-4">
+        <p className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/signIn" className="text-blue-600 hover:underline">
-            Sign in
+          <Link href="/signin" className="text-green-600 underline">
+            Sign In
           </Link>
         </p>
+
+        {message && <p className={`mt-3 text-sm text-center ${messageColor}`}>{message}</p>}
       </form>
     </div>
   );
 }
-
