@@ -45,7 +45,7 @@ export default async function ThirdSection() {
                 className="object-cover"
               />
             </div>
-            <div className="p-4">
+            <div className="p-4 max-w-72">
               <h3 className="text-3xl mb-2 hover:underline">{explore.title}</h3>
 
               <div className="flex flex-col items-center">

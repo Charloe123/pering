@@ -4,27 +4,22 @@ import Link from "next/link";
 import Cards from "@/components/Cards";
 import SecondSection from "@/components/SecondSection";
 import ThirdSection from "@/components/ThirdSection";
-
-
-
+import DailyInspiration from "@/components/dailyInspiration";
 
 export default function Home() {
   return (
     <>
       <main className="overflow-x-hidden bg-[#FFFDFA] w-full ">
-        
-
-        <div className="w-full  pt-20 px-4 sm:px-8 md:px-16 "> 
+        <div className="w-full  pt-20 px-4 sm:px-8 md:px-16 ">
           <div className="flex flex-col md:flex-row gap-8 md:gap-14 ">
-
             <div className="relative w-full md:w-[520px] h-[800px] sm:h-[400px] md:h-[600px]">
               <Link href={"/"}>
-              <Image
-                src="https://res.cloudinary.com/dpahyb1x9/image/upload/v1756900147/B6H8uMrvXJMcE3bXXnTeFhxAQ8_xkhjyu.jpg"
-                alt="hello"
-                fill
-                className="object-cover "
-              />
+                <Image
+                  src="https://res.cloudinary.com/dpahyb1x9/image/upload/v1756900147/B6H8uMrvXJMcE3bXXnTeFhxAQ8_xkhjyu.jpg"
+                  alt="hello"
+                  fill
+                  className="object-cover "
+                />
               </Link>
             </div>
 
@@ -83,9 +78,7 @@ export default function Home() {
                           href="/technology"
                           className="hover:underline text-[12px]"
                         >
-                          <h1 className="bg-[#ffbd3a4b] py-1">
-                            TECHNOLOGY
-                          </h1>
+                          <h1 className="bg-[#ffbd3a4b] py-1">TECHNOLOGY</h1>
                         </Link>
                       </div>
                       <div className="flex-1 h-px bg-black ml-1"></div>
@@ -201,27 +194,24 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
-          </div> 
-          <div className="h-[5vh] mt-10 border-b border-px w-[100%] ">
-          
-        </div>
+          </div>
+          <div className="h-[5vh] mt-10 border-b border-px w-[100%] "></div>
         </div>
 
-        
         <div className="h-[90vh] mt-10 w-full">
-          <h1 className="text-4xl px-14">
-           
-          </h1>
-          <Cards/>
-          
+          <h1 className="text-4xl px-14"></h1>
+          <Cards />
         </div>
         <div>
-          <SecondSection/>
+          <SecondSection />
         </div>
 
         <div>
-          <ThirdSection/>
+          <ThirdSection />
+        </div>
+
+        <div>
+         <DailyInspiration/>
         </div>
       </main>
     </>

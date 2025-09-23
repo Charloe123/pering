@@ -110,7 +110,14 @@ export default async function SecondSection() {
           </div>
         ))}
       </div>
+
+      <div>
+<hr />
+      </div>
+
+      
       
     </div>
+    
   );
 }
