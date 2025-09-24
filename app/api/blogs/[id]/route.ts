@@ -5,13 +5,15 @@ import Blog from "@/models/Blog";
 // GET /api/blogs/[id]
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-): Promise<NextResponse> {
+  context: { params: Promise<{ id: string }> } // ✅ matches RouteHandlerConfig
+) {
   try {
-    const { id } = await context.params; // 👈 await params
+    const { id } = await context.params; // 👈 await the promise
     await connectDB();
+
     const blog = await Blog.findById(id).populate("author", "username");
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+
     return NextResponse.json(blog, { status: 200 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Server error";
@@ -23,12 +25,12 @@ export async function GET(
 export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
-): Promise<NextResponse> {
+) {
   try {
-    const { id } = await context.params; // 👈 await params
+    const { id } = await context.params;
     await connectDB();
-    const { title, content, image } = await req.json();
 
+    const { title, content, image } = await req.json();
     const blog = await Blog.findById(id);
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
 
@@ -48,10 +50,11 @@ export async function PUT(
 export async function DELETE(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
-): Promise<NextResponse> {
+) {
   try {
-    const { id } = await context.params; // 👈 await params
+    const { id } = await context.params;
     await connectDB();
+
     const blog = await Blog.findById(id);
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
 
