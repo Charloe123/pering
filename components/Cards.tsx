@@ -24,7 +24,7 @@ export default function Cards() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch("http://localhost:3000/api/post", {
+      const res = await fetch("/api/post", {
         cache: "no-store",
       });
       const data = await res.json();

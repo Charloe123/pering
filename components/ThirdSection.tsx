@@ -11,15 +11,18 @@ interface Explore {
   date: string;
 }
 
-export const getData = async (): Promise<
-  Explore[] | { explores: Explore[] }
-> => {
-  const res = await fetch("http://localhost:3000/api/explore", {
+// Updated getData to use absolute URL
+export const getData = async (): Promise<Explore[] | { explores: Explore[] }> => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/explore`, {
     cache: "no-store",
   });
+
   if (!res.ok) return notFound();
   return res.json();
 };
+
 export default async function ThirdSection() {
   const data = await getData();
   const explores = Array.isArray(data) ? data : data.explores || [];
@@ -27,7 +30,7 @@ export default async function ThirdSection() {
   if (!explores.length) return <p className="px-14">No explores available.</p>;
 
   return (
-    <div className="px-14  mt-16 h-[120vh] overflow-hidden">
+    <div className="px-14 mt-16 h-[120vh] overflow-hidden">
       <h2 className="text-5xl">Explore Topics</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-16">
@@ -35,7 +38,7 @@ export default async function ThirdSection() {
           <Link
             href={`/explore/${explore._id}`}
             key={explore._id}
-            className="overflow-hidden  duration-300"
+            className="overflow-hidden duration-300"
           >
             <div className="relative h-[360px] w-full">
               <Image
@@ -47,19 +50,14 @@ export default async function ThirdSection() {
             </div>
             <div className="p-4 max-w-72">
               <h3 className="text-3xl mb-2 hover:underline">{explore.title}</h3>
-
               <div className="flex flex-col items-center">
-              
-              <p className="text-gray-600 text-sm">
-                {new Date(explore.date).toLocaleDateString()}
-              </p>
-              <p className="mt-2 text-gray-700  text-2xl">
-                {explore.description}
-              </p>
-              <button className="border-1 text-[16px] px-3">BUY NOW</button>
+                <p className="text-gray-600 text-sm">
+                  {new Date(explore.date).toLocaleDateString()}
+                </p>
+                <p className="mt-2 text-gray-700 text-2xl">{explore.description}</p>
+                <button className="border-1 text-[16px] px-3">BUY NOW</button>
               </div>
             </div>
-            
           </Link>
         ))}
       </div>

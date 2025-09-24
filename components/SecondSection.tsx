@@ -14,9 +14,13 @@ interface Trending {
 export const getData = async (): Promise<
   Trending[] | { trendings: Trending[] }
 > => {
-  const res = await fetch("http://localhost:3000/api/trending", {
+  // Use absolute URL for server-side fetch
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/trending`, {
     cache: "no-store",
   });
+
   if (!res.ok) return notFound();
   return res.json();
 };
@@ -58,36 +62,34 @@ export default async function SecondSection() {
         </div>
 
         <div className="h-[600px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 w-full mt-14 gap-6 scrollbar-hide">
-  {trendings.map((trending) => (
-    <div key={trending._id} className="mb-8">
-      <div className="flex gap-2">
-        <div className="h-px w-40 bg-black mt-2"></div>
-        <p className="text-[12px]">SEP 12, 2023</p>
-      </div>
-      <h3 className="mt-2 font-[outfit] text-[18px] font-semibold pl-2">
-        {trending.title}
-      </h3>
-      <div className="relative w-[280px] h-[350px] mt-9">
-        <Link
-          href={`/trending/${trending._id}`}
-          className="block w-full h-full"
-        >
-          <Image
-            src={trending.imageUrl}
-            alt={trending.title}
-            fill
-            className="object-cover"
-          />
-        </Link>
-      </div>
-    </div>
-  ))}
-</div>
+          {trendings.map((trending) => (
+            <div key={trending._id} className="mb-8">
+              <div className="flex gap-2">
+                <div className="h-px w-40 bg-black mt-2"></div>
+                <p className="text-[12px]">SEP 12, 2023</p>
+              </div>
+              <h3 className="mt-2 font-[outfit] text-[18px] font-semibold pl-2">
+                {trending.title}
+              </h3>
+              <div className="relative w-[280px] h-[350px] mt-9">
+                <Link
+                  href={`/trending/${trending._id}`}
+                  className="block w-full h-full"
+                >
+                  <Image
+                    src={trending.imageUrl}
+                    alt={trending.title}
+                    fill
+                    className="object-cover"
+                  />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
 
-
       </div>
 
-     
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
         {trendings.slice(0, 4).map((trending) => (
           <div key={trending._id} className="mb-8">
@@ -112,12 +114,8 @@ export default async function SecondSection() {
       </div>
 
       <div>
-<hr />
+        <hr />
       </div>
-
-      
-      
     </div>
-    
   );
 }
