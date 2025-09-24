@@ -11,7 +11,7 @@ interface Explore {
   date: string;
 }
 
-// Updated getData to use absolute URL
+
 export const getData = async (): Promise<Explore[] | { explores: Explore[] }> => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 

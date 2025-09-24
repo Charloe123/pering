@@ -14,7 +14,7 @@ interface Trending {
 export const getData = async (): Promise<
   Trending[] | { trendings: Trending[] }
 > => {
-  // Use absolute URL for server-side fetch
+ 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const res = await fetch(`${baseUrl}/api/trending`, {
