@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -24,12 +24,22 @@ export default function UserDashboard() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : null;
+  // Store token and userId in state to ensure client-side access
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const fetchBlogs = async () => {
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setUserId(localStorage.getItem("userId"));
+  }, []);
+
+  // fetchBlogs wrapped in useCallback to make it stable for useEffect
+  const fetchBlogs = useCallback(async () => {
     if (!token || !userId) return;
+
     setLoading(true);
+    setMessage("");
+
     try {
       const res = await fetch(`/api/blogs?userId=${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -42,15 +52,17 @@ export default function UserDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, userId]);
 
+  // ✅ Fixed: added token and userId in the dependency array
   useEffect(() => {
     if (!token || !userId) {
       setMessage("You must be logged in to view your blogs.");
+      setLoading(false);
       return;
     }
     fetchBlogs();
-  }, [token, userId]);
+  }, [token, userId, fetchBlogs]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -58,6 +70,7 @@ export default function UserDashboard() {
 
   const uploadImageToCloudinary = async (): Promise<string | null> => {
     if (!imageFile) return null;
+
     const formData = new FormData();
     formData.append("file", imageFile);
     formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET!);
@@ -132,9 +145,8 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-[#FFFDFA] flex flex-col">
-      
       <header className="bg-white border-b-4 border-[#FFBD3A] p-4 flex justify-between items-center shadow-sm">
-        <h1 className="text-xl font-bold text-[#111111]"> My Blog Dashboard</h1>
+        <h1 className="text-xl font-bold text-[#111111]">My Blog Dashboard</h1>
         <button
           onClick={() => {
             localStorage.clear();
@@ -146,14 +158,10 @@ export default function UserDashboard() {
         </button>
       </header>
 
-    
       <div className="flex flex-1">
-      
         <aside className="w-full lg:w-1/4 bg-white border-r border-[#FFBD3A]/50 p-6 shadow-md">
           <h2 className="text-lg font-bold text-[#111111] mb-4 text-center">Create New Blog</h2>
-          {message && (
-            <p className="mb-4 text-center text-[#0000EE] font-medium">{message}</p>
-          )}
+          {message && <p className="mb-4 text-center text-[#0000EE] font-medium">{message}</p>}
           <form onSubmit={handleCreate} className="space-y-4">
             <input
               type="text"
@@ -188,7 +196,6 @@ export default function UserDashboard() {
           </form>
         </aside>
 
-       
         <main className="flex-1 p-6 overflow-y-auto">
           <h2 className="text-2xl font-bold mb-6 text-[#111111]">Your Blogs</h2>
           {loading ? (
@@ -204,12 +211,7 @@ export default function UserDashboard() {
                 >
                   {blog.image && (
                     <div className="relative w-full h-40 rounded-t-xl overflow-hidden">
-                      <Image
-                        src={blog.image}
-                        alt={blog.title}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={blog.image} alt={blog.title} fill className="object-cover" />
                     </div>
                   )}
                   <div className="p-4 flex flex-col flex-1">

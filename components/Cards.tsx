@@ -40,7 +40,7 @@ export default function Cards() {
 
   return (
     <div className="px-14 relative ">
-      <h2 className="text-5xl mb-8">Editor’s Pick</h2>
+      <h2 className="text-5xl mb-8">Editors Pick</h2>
 
      
       <button

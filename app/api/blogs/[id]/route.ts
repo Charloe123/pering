@@ -1,11 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+// GET /api/blogs/[id]
+export async function GET(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   try {
+    const { id } = await context.params; // 👈 await params
     await connectDB();
-    const blog = await Blog.findById(params.id).populate("author", "username");
+    const blog = await Blog.findById(id).populate("author", "username");
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     return NextResponse.json(blog, { status: 200 });
   } catch (err: unknown) {
@@ -14,11 +19,17 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+// PUT /api/blogs/[id]
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   try {
+    const { id } = await context.params; // 👈 await params
     await connectDB();
     const { title, content, image } = await req.json();
-    const blog = await Blog.findById(params.id);
+
+    const blog = await Blog.findById(id);
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
 
     blog.title = title;
@@ -33,10 +44,15 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+// DELETE /api/blogs/[id]
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   try {
+    const { id } = await context.params; // 👈 await params
     await connectDB();
-    const blog = await Blog.findById(params.id);
+    const blog = await Blog.findById(id);
     if (!blog) return NextResponse.json({ error: "Blog not found" }, { status: 404 });
 
     await blog.deleteOne();

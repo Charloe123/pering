@@ -3,7 +3,7 @@ import connect from "@/db";
 import explore from "@/models/explore";
 
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
     try {
         await connect();
         const explores = await explore.find({});

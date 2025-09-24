@@ -3,7 +3,7 @@ import connect from "@/db";
 import post from "@/models/post";
 
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
     try {
         await connect();
         const posts = await post.find({});
